@@ -1,2 +1,4 @@
 blue_pliers
+earphone
 Wallet
+Yellow_Pliers

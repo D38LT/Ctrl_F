@@ -139,8 +139,10 @@ def process_single_video(video_path, class_name, base_dir, target_frames):
         valid_frames, invalid_frames = validate_frames(frames_data)
         
         print("\n4. 최종 결과 저장 중...")
-        random.shuffle(valid_frames)
+        # 프레임 번호 순서대로 정렬
+        valid_frames.sort()
         
+        # 연속된 프레임을 8:2로 분할 (순서 유지)
         split_idx = int(len(valid_frames) * 0.8)
         train_frames = valid_frames[:split_idx]
         test_frames = valid_frames[split_idx:]
@@ -151,7 +153,8 @@ def process_single_video(video_path, class_name, base_dir, target_frames):
             for frame_num in train_frames:
                 frame_data = frames_data[frame_num]
                 if frame_data['bbox']:
-                    save_frame_result(frame_data, f"{class_name}_{successful_frames + 1}", 
+                    # 프레임 번호를 파일명에 포함시켜 순서 유지
+                    save_frame_result(frame_data, f"{class_name}_{frame_num:04d}", 
                                     base_dir, class_name, 'train', dirs)
                     successful_frames += 1
                 pbar.update(1)
@@ -160,7 +163,7 @@ def process_single_video(video_path, class_name, base_dir, target_frames):
             for frame_num in test_frames:
                 frame_data = frames_data[frame_num]
                 if frame_data['bbox']:
-                    save_frame_result(frame_data, f"{class_name}_{successful_frames + 1}", 
+                    save_frame_result(frame_data, f"{class_name}_{frame_num:04d}", 
                                     base_dir, class_name, 'test', dirs)
                     successful_frames += 1
                 pbar.update(1)
@@ -589,7 +592,7 @@ if __name__ == "__main__":
         exit()
     
     # 프레임 추출 및 데이터셋 생성
-    target_frames = 1000
+    target_frames = 300
     process_videos(videos_dir, base_dir, target_frames)
     
 

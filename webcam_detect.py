@@ -6,7 +6,7 @@ import numpy as np
 def run_webcam_detection(conf_threshold=0.25):
     """웹캠에서 실시간으로 객체 탐지"""
     # 모델 경로 고정
-    model_path = r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf6\weights\best.pt"
+    model_path = r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf12\weights\best.pt"
     
     # 모델 로드
     model = YOLO(model_path)

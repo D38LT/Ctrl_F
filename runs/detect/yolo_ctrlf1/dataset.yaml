@@ -1,0 +1,10 @@
+path: D:\Project FIles\Ctrl_F\florence-2-large-playground-master\yolo_dataset
+train: train/images
+val: test/images
+test: test/images
+names:
+  0: blue_pliers
+  1: earphone
+  2: Wallet
+  3: Yellow_Pliers
+nc: 4
