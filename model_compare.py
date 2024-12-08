@@ -25,7 +25,7 @@ class ModelComparator:
             frames = []
             
             # 각 모델별 추론 실행
-            for model in self.models:
+            for model_idx, model in enumerate(self.models):
                 start_time = time.time()
                 results = model.predict(frame, conf=conf_threshold, verbose=False)
                 inference_time = time.time() - start_time
@@ -35,13 +35,17 @@ class ModelComparator:
                 
                 # 결과 시각화
                 frame_copy = frame.copy()
+                color = self.colors[model_idx]
                 for r in results[0].boxes:
                     box = r.xyxy[0].cpu().numpy()
                     conf = float(r.conf[0])
                     cls = int(r.cls[0])
                     
+                    # 유효한 클래스 인덱스 확인
+                    if cls not in model.names:
+                        continue
+                    
                     x1, y1, x2, y2 = map(int, box)
-                    color = self.colors[self.models.index(model)]
                     cv2.rectangle(frame_copy, (x1, y1), (x2, y2), color, 2)
                     
                     label = f"{model.names[cls]}: {conf:.2f}"
@@ -101,9 +105,8 @@ class ModelComparator:
 
 if __name__ == "__main__":
     model_paths = [
-        r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf\weights\best.pt",
-        r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf2\weights\best.pt",
-        r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf4\weights\best.pt"
+        r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf8\weights\best.pt",
+        r"D:\Project FIles\Ctrl_F\florence-2-large-playground-master\runs\detect\yolo_ctrlf8\weights\merged_best.pt"
     ]
     
     comparator = ModelComparator(model_paths)

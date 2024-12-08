@@ -1,0 +1,7 @@
+path: D:\Project FIles\Ctrl_F\florence-2-large-playground-master\temp_dataset
+train: train/images
+val: test/images
+test: test/images
+names:
+  0: Yellow_Pliers
+nc: 1
